@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Enquiry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.12.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+</head>
+<body>
+<div id="tms-header"></div>
+<div class="banner-1">
+	<div class="container">
+		<h1 class="wow zoomIn animated" data-wow-delay=".5s">TMS-Tourism Management System</h1>
+	</div>
+</div>
+<div class="privacy">
+	<div class="container">
+		<h3 class="wow fadeInDown animated" data-wow-delay=".5s">Enquiry Form</h3>
+		<div id="msg"></div>
+		<form name="enquiry" id="enquiry-form">
+			<p style="width: 350px;"><b>Full name</b> <input type="text" name="fname" class="form-control" placeholder="Full Name" required></p>
+			<p style="width: 350px;"><b>Email</b> <input type="email" name="email" class="form-control" placeholder="Valid Email id" required></p>
+			<p style="width: 350px;"><b>Mobile No</b> <input type="text" name="mobileno" class="form-control" maxlength="10" pattern="[0-9]{10}" title="Enter a 10 digit mobile number" placeholder="10 Digit mobile No" required></p>
+			<p style="width: 350px;"><b>Subject</b> <input type="text" name="subject" class="form-control" placeholder="Subject" required></p>
+			<p style="width: 350px;"><b>Description</b> <textarea name="description" class="form-control" rows="6" cols="50" placeholder="Description" required></textarea></p>
+			<p style="width: 350px;"><button type="submit" class="btn-primary btn">Submit</button></p>
+		</form>
+	</div>
+</div>
+
+<div id="tms-footer"></div>
+<div id="tms-modals"></div>
+<script>
+TMS_UI.boot({}, function () {
+  $('#enquiry-form').on('submit', function (e) {
+    e.preventDefault();
+    var f = this;
+    try {
+      TMS.enquiries.create({
+        fname: $.trim(f.fname.value), email: $.trim(f.email.value), mobile: f.mobileno.value,
+        subject: $.trim(f.subject.value), description: $.trim(f.description.value)
+      });
+      $('#msg').html(TMS_UI.msg('success', 'Enquiry  Successfully submited'));
+      f.reset();
+    } catch (err) {
+      $('#msg').html(TMS_UI.msg('error', 'Something went wrong. Please try again'));
+    }
+  });
+});
+</script>
+</body>
+</html>

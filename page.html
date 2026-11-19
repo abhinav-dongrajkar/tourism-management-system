@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Tourism Management System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.12.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+</head>
+<body>
+<div id="tms-header"></div>
+<div class="banner-1">
+	<div class="container">
+		<h1 class="wow zoomIn animated" data-wow-delay=".5s">TMS-Tourism Management System</h1>
+	</div>
+</div>
+<div class="privacy">
+	<div class="container">
+		<h3 class="wow fadeInDown animated" data-wow-delay=".5s" id="page-title"></h3>
+		<div id="page-body"></div>
+	</div>
+</div>
+<div id="tms-footer"></div>
+<div id="tms-modals"></div>
+<script>
+TMS_UI.boot({}, function () {
+  var type = TMS_UI.qs('type');
+  var detail = TMS.pages.get(type);
+  if (detail === null) {
+    $('#page-body').html('<p class="tms-empty">This page does not exist.</p>');
+    return;
+  }
+  document.title = 'TMS | ' + TMS_UI.pageTitle(type);
+  $('#page-title').text(TMS_UI.pageTitle(type));
+  // page content is HTML written by the admin (Manage Pages), so it is printed as HTML
+  $('#page-body').html(detail);
+});
+</script>
+</body>
+</html>

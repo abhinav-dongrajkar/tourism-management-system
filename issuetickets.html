@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Raised Tickets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.12.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+</head>
+<body>
+<div id="tms-header"></div>
+<div class="banner-1">
+	<div class="container">
+		<h1 class="wow zoomIn animated" data-wow-delay=".5s">TMS-Tourism Management System</h1>
+	</div>
+</div>
+<div class="privacy">
+	<div class="container">
+		<h3 class="wow fadeInDown animated" data-wow-delay=".5s">Issue Tickets</h3>
+		<table border="1" width="100%" class="table">
+			<thead>
+			<tr align="center">
+				<th>#</th><th>Ticket Id</th><th>Issue</th><th>Description</th>
+				<th>Admin Remark</th><th>Reg Date</th><th>Remark date</th>
+			</tr>
+			</thead>
+			<tbody id="rows"></tbody>
+		</table>
+	</div>
+</div>
+
+<div id="tms-footer"></div>
+<div id="tms-modals"></div>
+<script>
+TMS_UI.boot({ auth: true }, function (user) {
+  var esc = TMS.esc;
+  var html = TMS.issues.forUser(user).map(function (t, i) {
+    return '<tr align="center"><td>' + (i + 1) + '</td>' +
+      '<td width="100">#TKT-' + esc(t.id) + '</td>' +
+      '<td>' + esc(t.Issue) + '</td>' +
+      '<td width="300">' + esc(t.Description) + '</td>' +
+      '<td>' + esc(t.AdminRemark) + '</td>' +
+      '<td width="100">' + esc(t.PostingDate) + '</td>' +
+      '<td width="100">' + esc(t.AdminremarkDate) + '</td></tr>';
+  }).join('');
+  $('#rows').html(html || '<tr><td colspan="7" class="tms-empty" align="center">You have not raised any tickets.</td></tr>');
+});
+</script>
+</body>
+</html>

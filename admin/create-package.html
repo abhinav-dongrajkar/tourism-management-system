@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Create Package</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/table-style.css" />
+<link rel="stylesheet" type="text/css" href="css/basictable.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="css/custom.css" type='text/css' />
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery.basictable.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/scripts.js"></script>
+<script src="../js/seed.js"></script>
+<script src="../js/db.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body>
+<div class="page-container">
+	<div class="left-content">
+		<div class="mother-grid-inner">
+			<div id="adm-header"></div>
+			<ol class="breadcrumb" id="adm-crumb"></ol>
+			<div class="grid-form">
+				<div class="grid-form1">
+					<h3>Create Package</h3>
+					<div id="msg"></div>
+					<div class="tab-content"><div class="tab-pane active" id="horizontal-form">
+						<form class="form-horizontal" id="pkg-form" name="package">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Name</label>
+						<div class="col-sm-8"><input type="text" class="form-control1" name="packagename" placeholder="Create Package" required></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Type</label>
+						<div class="col-sm-8"><input type="text" class="form-control1" name="packagetype" placeholder=" Package Type eg- Family Package / Couple Package" required></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Location</label>
+						<div class="col-sm-8"><input type="text" class="form-control1" name="packagelocation" placeholder=" Package Location" required></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Price in Rs.</label>
+						<div class="col-sm-8"><input type="number" min="0" class="form-control1" name="packageprice" placeholder=" Package Price in Rs." required></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Features</label>
+						<div class="col-sm-8"><input type="text" class="form-control1" name="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" required></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Details</label>
+						<div class="col-sm-8"><textarea class="form-control" rows="5" cols="50" name="packagedetails" placeholder="Package Details" required></textarea></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Package Image</label>
+						<div class="col-sm-8"><input type="file" name="packageimage" accept="image/*" required></div>
+					</div>
+							<div class="row"><div class="col-sm-8 col-sm-offset-2">
+								<button type="submit" class="btn-primary btn">Create</button>
+								<button type="reset" class="btn-inverse btn">Reset</button>
+							</div></div>
+						</form>
+					</div></div>
+				</div>
+			</div>
+			<div class="inner-block"></div>
+			<div id="adm-footer"></div>
+		</div>
+	</div>
+	<div id="adm-sidebar"></div>
+	<div class="clearfix"></div>
+</div>
+<script>
+ADM.boot({ crumb: 'Create Package' }, function () {
+  $('#pkg-form').on('submit', function (e) {
+    e.preventDefault();
+    var f = this, $btn = $(f).find('button[type=submit]').prop('disabled', true);
+    TMS.fileToDataURL(f.packageimage.files[0], 900, 0.82).then(function (img) {
+      TMS.packages.create({
+        name: $.trim(f.packagename.value), type: $.trim(f.packagetype.value), location: $.trim(f.packagelocation.value),
+        price: f.packageprice.value, features: $.trim(f.packagefeatures.value), details: $.trim(f.packagedetails.value), image: img
+      });
+      $('#msg').html(ADM.msg('success', 'Package Created Successfully'));
+      f.reset();
+    }).catch(function (err) {
+      $('#msg').html(ADM.msg('error', err.message || 'Something went wrong. Please try again'));
+    }).then(function () { $btn.prop('disabled', false); });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/table-style.css" />
+<link rel="stylesheet" type="text/css" href="css/basictable.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="css/custom.css" type='text/css' />
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery.basictable.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/scripts.js"></script>
+<script src="../js/seed.js"></script>
+<script src="../js/db.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body>
+<div class="page-container">
+	<div class="left-content">
+		<div class="mother-grid-inner">
+			<div id="adm-header"></div>
+			<ol class="breadcrumb" id="adm-crumb"></ol>
+			<div class="four-grids">
+				<a href="manage-users.html">
+					<div class="col-md-4 four-grid">
+						<div class="four-agileits">
+							<div class="icon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>User</h3><h4 id="c-users">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manageissues.html">
+					<div class="col-md-4 four-grid">
+						<div class="four-w3ls">
+							<div class="icon"><i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Issues Raised</h3><h4 id="c-issues">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manage-packages.html">
+					<div class="col-md-4 four-grid">
+						<div class="four-wthree">
+							<div class="icon"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Total packages</h3><h4 id="c-packages">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<div class="clearfix"></div>
+			</div>
+			<div class="four-grids">
+				<a href="manage-enquires.html">
+					<div class="col-md-4 four-grid">
+						<div class="four-agileinfo">
+							<div class="icon"><i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Enquiries</h3><h4 id="c-enq">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manage-enquires.html">
+					<div class="col-md-4 four-grid">
+						<div class="four-agileits">
+							<div class="icon"><i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>New Enquiries</h3><h4 id="c-enq-new">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manage-enquires.html">
+					<div class="col-md-4 four-grid">
+						<div class="four-w3ls">
+							<div class="icon"><i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Read Enquiries</h3><h4 id="c-enq-read">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<div class="clearfix"></div>
+			</div>
+			<div class="four-grids">
+				<a href="manage-bookings.html">
+					<div class="col-md-3 four-grid">
+						<div class="four-agileinfo">
+							<div class="icon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Bookings</h3><h4 id="c-bk">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manage-bookings.html">
+					<div class="col-md-3 four-grid">
+						<div class="four-wthree">
+							<div class="icon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>New Bookings</h3><h4 id="c-bk-new">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manage-bookings.html">
+					<div class="col-md-3 four-grid">
+						<div class="four-agileits">
+							<div class="icon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Cancelled Bookings</h3><h4 id="c-bk-cancel">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<a href="manage-bookings.html">
+					<div class="col-md-3 four-grid">
+						<div class="four-w3ls">
+							<div class="icon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></div>
+							<div class="four-text"><h3>Confirmed Bookings</h3><h4 id="c-bk-ok">0</h4></div>
+						</div>
+					</div>
+				</a>
+				<div class="clearfix"></div>
+			</div>
+			<div class="agile-grids">
+				<div class="agile-tables"><div class="w3l-table-info" style="padding:15px 20px">
+					<h2 style="font-size:18px">Data tools</h2>
+					<p>All data of this site is stored in this browser (localStorage).</p>
+					<button type="button" class="btn btn-primary" id="btn-export">Download backup (JSON)</button>
+					<label class="btn btn-default" style="margin:0">Restore backup <input type="file" id="file-import" accept=".json,application/json" style="display:none"></label>
+					<button type="button" class="btn btn-danger" id="btn-reset">Reset to demo data</button>
+				</div></div>
+			</div>
+			<div class="inner-block"></div>
+			<div id="adm-footer"></div>
+		</div>
+	</div>
+	<div id="adm-sidebar"></div>
+	<div class="clearfix"></div>
+</div>
+<script>
+ADM.boot({}, function () {
+  function count() {
+    var users = TMS.users.all(), enq = TMS.enquiries.all(), bk = TMS.bookings.all();
+    var set = function (id, n) { $('#' + id).text(n); };
+    set('c-users', users.length);
+    set('c-issues', TMS.issues.all().length);
+    set('c-packages', TMS.packages.all().length);
+    set('c-enq', enq.length);
+    set('c-enq-new', enq.filter(function (e) { return e.Status !== 1; }).length);
+    set('c-enq-read', enq.filter(function (e) { return e.Status === 1; }).length);
+    set('c-bk', bk.length);
+    set('c-bk-new', bk.filter(function (b) { return !b.status; }).length);
+    set('c-bk-cancel', bk.filter(function (b) { return b.status === 2; }).length);
+    set('c-bk-ok', bk.filter(function (b) { return b.status === 1; }).length);
+  }
+  count();
+
+  $('#btn-export').on('click', function () {
+    var blob = new Blob([TMS.exportJSON()], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'tms-backup-' + TMS.ymd(new Date()) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  $('#file-import').on('change', function () {
+    var file = this.files[0]; if (!file) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      try { TMS.importJSON(fr.result); alert('Backup restored.'); location.reload(); }
+      catch (e) { alert('Could not restore: ' + e.message); }
+    };
+    fr.readAsText(file);
+  });
+  $('#btn-reset').on('click', function () {
+    if (!confirm('This deletes everything you added and restores the original demo data. Continue?')) return;
+    TMS.reset();
+    TMS.admin.logout();
+    alert('Demo data restored. Please sign in again.');
+    location.href = 'index.html';
+  });
+});
+</script>
+</body>
+</html>

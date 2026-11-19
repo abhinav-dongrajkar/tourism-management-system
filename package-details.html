@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Package Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.12.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+</head>
+<body>
+<div id="tms-header"></div>
+<div class="banner-3">
+	<div class="container">
+		<h1 class="wow zoomIn animated" data-wow-delay=".5s"> TMS -Package Details</h1>
+	</div>
+</div>
+<div class="selectroom">
+	<div class="container">
+		<div id="msg"></div>
+		<div id="pkg"></div>
+	</div>
+</div>
+<div id="tms-footer"></div>
+<div id="tms-modals"></div>
+<script>
+TMS_UI.boot({}, function (user) {
+  var esc = TMS.esc;
+  var p = TMS.packages.get(TMS_UI.qs('pkgid'));
+  if (!p) {
+    $('#pkg').html('<p class="tms-empty">Package not found. <a href="package-list.html">Back to the package list</a></p>');
+    return;
+  }
+  document.title = 'TMS | ' + p.PackageName;
+
+  var bookBtn = user
+    ? '<li class="spe" align="center"><button type="submit" class="btn-primary btn">Book</button></li>'
+    : '<li class="sigi" align="center" style="margin-top: 1%"><a href="#" data-toggle="modal" data-target="#myModal4" class="btn-primary btn"> Book</a></li>';
+
+  $('#pkg').html(
+    '<form name="book" id="book-form">' +
+    '<div class="selectroom_top">' +
+      '<div class="col-md-4 selectroom_left wow fadeInLeft animated" data-wow-delay=".5s">' +
+        '<img src="' + esc(TMS.imgSrc(p.PackageImage, 'admin/pacakgeimages/')) + '" class="img-responsive" alt=""></div>' +
+      '<div class="col-md-8 selectroom_right wow fadeInRight animated" data-wow-delay=".5s">' +
+        '<h2>' + esc(p.PackageName) + '</h2>' +
+        '<p class="dow">#PKG-' + esc(p.PackageId) + '</p>' +
+        '<p><b>Package Type :</b> ' + esc(p.PackageType) + '</p>' +
+        '<p><b>Package Location :</b> ' + esc(p.PackageLocation) + '</p>' +
+        '<p><b>Features</b> ' + esc(p.PackageFetures) + '</p>' +
+        '<div class="ban-bottom">' +
+          '<div class="bnr-right"><label class="inputLabel">From</label>' +
+            '<input class="date" id="datepicker2" type="date" name="fromdate" required></div>' +
+          '<div class="bnr-right"><label class="inputLabel">To</label>' +
+            '<input class="date" id="datepicker3" type="date" name="todate" required></div>' +
+        '</div><div class="clearfix"></div>' +
+        '<div class="grand"><p>Grand Total</p><h3>Rs. ' + esc(p.PackagePrice) + '</h3></div>' +
+      '</div>' +
+      '<h3>Package Details</h3>' +
+      '<p style="padding-top: 1%">' + esc(p.PackageDetails) + ' </p>' +
+      '<div class="clearfix"></div>' +
+    '</div>' +
+    '<div class="selectroom_top"><h2>Travels</h2>' +
+      '<div class="selectroom-info animated wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms" style="margin-top: -70px">' +
+        '<ul><li class="spe"><label class="inputLabel">Comment</label>' +
+        '<input class="special" type="text" name="comment" required></li>' +
+        bookBtn + '<div class="clearfix"></div></ul>' +
+      '</div></div></form>');
+
+  // dates cannot be in the past, and "To" cannot be before "From"
+  var today = TMS.ymd(new Date());
+  $('#datepicker2, #datepicker3').attr('min', today);
+  $('#datepicker2').on('change', function () {
+    $('#datepicker3').attr('min', this.value || today);
+  });
+
+  $('#book-form').on('submit', function (e) {
+    e.preventDefault();
+    if (!user) { $('#myModal4').modal('show'); return; }
+    var f = this;
+    if (f.todate.value < f.fromdate.value) {
+      $('#msg').html(TMS_UI.msg('error', 'The "To" date cannot be before the "From" date'));
+      return;
+    }
+    try {
+      TMS.bookings.create({ packageId: p.PackageId, email: user, from: f.fromdate.value, to: f.todate.value, comment: f.comment.value });
+      $('#msg').html(TMS_UI.msg('success', 'Booked Successfully'));
+      f.reset();
+    } catch (err) {
+      $('#msg').html(TMS_UI.msg('error', 'Something went wrong. Please try again'));
+    }
+    $('html, body').animate({ scrollTop: 0 }, 200);
+  });
+});
+</script>
+</body>
+</html>

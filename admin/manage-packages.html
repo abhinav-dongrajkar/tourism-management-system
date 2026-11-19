@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Manage Packages</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/table-style.css" />
+<link rel="stylesheet" type="text/css" href="css/basictable.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="css/custom.css" type='text/css' />
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery.basictable.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/scripts.js"></script>
+<script src="../js/seed.js"></script>
+<script src="../js/db.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body>
+<div class="page-container">
+	<div class="left-content">
+		<div class="mother-grid-inner">
+			<div id="adm-header"></div>
+			<ol class="breadcrumb" id="adm-crumb"></ol>
+			<div class="agile-grids">
+				<div id="msg"></div>
+				<div class="agile-tables">
+					<div class="w3l-table-info">
+						<h2>Manage Packages</h2>
+						<table id="table">
+							<thead><tr><th>#</th><th>Name</th><th>Type</th><th>Location</th><th>Price</th><th>Creation Date</th><th>Action</th></tr></thead>
+							<tbody></tbody>
+						</table>
+						<p id="table-empty" class="tms-empty" style="display:none"></p>
+					</div>
+				</div>
+			</div>
+			<div class="inner-block"></div>
+			<div id="adm-footer"></div>
+		</div>
+	</div>
+	<div id="adm-sidebar"></div>
+	<div class="clearfix"></div>
+</div>
+<script>
+ADM.boot({ crumb: 'Manage Packages' }, function () {
+  var esc = TMS.esc;
+  function render() {
+    var rows = TMS.packages.all().map(function (p, i) {
+      return '<tr><td>' + (i + 1) + '</td><td>' + esc(p.PackageName) + '</td><td>' + esc(p.PackageType) + '</td>' +
+        '<td>' + esc(p.PackageLocation) + '</td><td>Rs. ' + esc(p.PackagePrice) + '</td><td>' + esc(p.Creationdate) + '</td>' +
+        '<td><a href="update-package.html?pid=' + esc(p.PackageId) + '"><button type="button" class="btn btn-primary btn-block">View Details</button></a><br />' +
+        '<a href="#" data-id="' + esc(p.PackageId) + '" class="btn btn-danger btn-block pkg-del">Delete</a></td></tr>';
+    }).join('');
+    ADM.renderTable(rows, 'No packages found. Use Tour Packages > Create to add one.');
+  }
+  render();
+  $(document).on('click', '.pkg-del', function (e) {
+    e.preventDefault();
+    if (!confirm('Do you really want to delete?')) return;
+    TMS.packages.remove($(this).data('id'));
+    alert('Package deleted.');
+    render();
+  });
+});
+</script>
+</body>
+</html>

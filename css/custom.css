@@ -1,0 +1,11 @@
+/* Extra styles added during the PHP -> HTML/CSS/JS conversion (user site) */
+.errorWrap {
+  padding: 10px; margin: 0 0 20px 0; background: #fff;
+  border-left: 4px solid #dd3d36; box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+}
+.succWrap {
+  padding: 10px; margin: 0 0 20px 0; background: #fff;
+  border-left: 4px solid #5cb85c; box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+}
+.tms-empty { padding: 20px 0; color: #777; }
+#user-availability-status { display: block; margin: 4px 0; }

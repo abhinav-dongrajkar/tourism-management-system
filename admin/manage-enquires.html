@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Manage Enquiries</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/table-style.css" />
+<link rel="stylesheet" type="text/css" href="css/basictable.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="css/custom.css" type='text/css' />
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery.basictable.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/scripts.js"></script>
+<script src="../js/seed.js"></script>
+<script src="../js/db.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body>
+<div class="page-container">
+	<div class="left-content">
+		<div class="mother-grid-inner">
+			<div id="adm-header"></div>
+			<ol class="breadcrumb" id="adm-crumb"></ol>
+			<div class="agile-grids">
+				<div id="msg"></div>
+				<div class="agile-tables">
+					<div class="w3l-table-info">
+						<h2>Manage Enquiries</h2>
+						<table id="table">
+							<thead><tr><th>Ticket id</th><th>Name</th><th>Mobile No./ Email</th><th>Subject </th><th>Description </th><th>Posting date </th><th>Action </th></tr></thead>
+							<tbody></tbody>
+						</table>
+						<p id="table-empty" class="tms-empty" style="display:none"></p>
+					</div>
+				</div>
+			</div>
+			<div class="inner-block"></div>
+			<div id="adm-footer"></div>
+		</div>
+	</div>
+	<div id="adm-sidebar"></div>
+	<div class="clearfix"></div>
+</div>
+<script>
+ADM.boot({ crumb: 'Manage Enquiries' }, function () {
+  var esc = TMS.esc;
+  function render() {
+    var rows = TMS.enquiries.all().map(function (q) {
+      var del = '<a href="#" data-id="' + esc(q.id) + '" class="enq-del" style="color:red">Delete</a>';
+      var action = q.Status === 1
+        ? 'Read | ' + del
+        : '<a href="#" data-id="' + esc(q.id) + '" class="enq-read">Pending</a> | ' + del;
+      return '<tr><td width="120">#TCKT-' + esc(q.id) + '</td><td width="50">' + esc(q.FullName) + '</td>' +
+        '<td width="50">' + esc(q.MobileNumber) + ' /<br />' + esc(q.EmailId) + '</td>' +
+        '<td width="200">' + esc(q.Subject) + '</td><td width="400">' + esc(q.Description) + '</td>' +
+        '<td width="50">' + esc(q.PostingDate) + '</td><td>' + action + '</td></tr>';
+    }).join('');
+    ADM.renderTable(rows, 'No enquiries received yet.');
+  }
+  render();
+  $(document).on('click', '.enq-read', function (e) {
+    e.preventDefault();
+    if (!confirm('Do you really want to read')) return;
+    TMS.enquiries.markRead($(this).data('id'));
+    $('#msg').html(ADM.msg('success', 'Enquiry  successfully read'));
+    render();
+  });
+  $(document).on('click', '.enq-del', function (e) {
+    e.preventDefault();
+    if (!confirm('Do you really want to delete?')) return;
+    TMS.enquiries.remove($(this).data('id'));
+    alert('Eqnuiry deleted.');
+    render();
+  });
+});
+</script>
+</body>
+</html>

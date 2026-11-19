@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Update Issue Remark</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/table-style.css" />
+<link rel="stylesheet" type="text/css" href="css/basictable.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="css/custom.css" type='text/css' />
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery.basictable.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/scripts.js"></script>
+<script src="../js/seed.js"></script>
+<script src="../js/db.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body>
+<div style="margin:20px 50px;">
+	<form name="updateticket" id="remark-form">
+		<table width="100%" border="1" cellspacing="0" cellpadding="6" id="issue-table">
+			<tr height="50"><td colspan="2"><div><b>Update Remark !</b></div></td></tr>
+			<tr><td colspan="2"><div id="msg"></div></td></tr>
+			<tr><td><b>Issue:</b></td><td id="issue-title"></td></tr>
+			<tr><td><b>Description:</b></td><td id="issue-desc"></td></tr>
+			<tbody id="remark-area"></tbody>
+		</table>
+	</form>
+	<p style="margin-top:15px"><button type="button" class="btn btn-default" onclick="window.close()">Close Window</button></p>
+</div>
+<script>
+(function () {
+  var esc = TMS.esc;
+  var me = TMS.admin.current();
+  if (!me || !TMS.admin.get(me)) { location.replace('index.html'); return; }
+  var iid = (/[?&]iid=(\d+)/.exec(location.search) || [])[1];
+  var issue = TMS.issues.get(iid);
+  if (!issue) { $('#issue-table').replaceWith('<p>Issue not found.</p>'); return; }
+
+  function render() {
+    issue = TMS.issues.get(iid);
+    $('#issue-title').text(issue.Issue); $('#issue-desc').text(issue.Description);
+    if (!issue.AdminRemark) {
+      $('#remark-area').html(
+        '<tr><td><b>Remark:</b></td><td><textarea cols="50" rows="7" name="remark" required style="width:100%"></textarea></td></tr>' +
+        '<tr><td></td><td><input type="submit" value="update" class="btn btn-primary" style="cursor:pointer"></td></tr>');
+    } else {
+      $('#remark-area').html(
+        '<tr><td><b>Remark:</b></td><td>' + esc(issue.AdminRemark) + '</td></tr>' +
+        '<tr><td><b>Remark Date:</b></td><td>' + esc(issue.AdminremarkDate) + '</td></tr>');
+    }
+  }
+  render();
+  $('#remark-form').on('submit', function (e) {
+    e.preventDefault();
+    TMS.issues.setRemark(iid, $.trim(this.remark.value));
+    $('#msg').html('<div class="succWrap"><strong>SUCCESS</strong>:Remark  successfully Updated </div>');
+    render();
+    try { if (window.opener && window.opener.refreshIssues) window.opener.refreshIssues(); } catch (err) {}
+  });
+})();
+</script>
+</body>
+</html>

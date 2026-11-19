@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | Tourism Management System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.12.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+</head>
+<body>
+<div id="tms-header"></div>
+<div class="banner">
+	<div class="container"></div>
+</div>
+<div class="container">
+	<div class="holiday">
+		<h3>Package List</h3>
+		<div id="pkg-list"></div>
+		<div><a href="package-list.html" class="view">View More Packages</a></div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<div class="routes">
+	<div class="container">
+		<div class="col-md-4 routes-left wow fadeInRight animated" data-wow-delay=".5s">
+			<div class="rou-left"><a href="#"><i class="glyphicon glyphicon-list-alt"></i></a></div>
+			<div class="rou-rgt wow fadeInDown animated" data-wow-delay=".5s"><h3>80000</h3><p>Enquiries</p></div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="col-md-4 routes-left">
+			<div class="rou-left"><a href="#"><i class="fa fa-user"></i></a></div>
+			<div class="rou-rgt"><h3>1900</h3><p>Registered users</p></div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="col-md-4 routes-left wow fadeInRight animated" data-wow-delay=".5s">
+			<div class="rou-left"><a href="#"><i class="fa fa-ticket"></i></a></div>
+			<div class="rou-rgt"><h3>7,00,00,000+</h3><p>Booking</p></div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<div id="tms-footer"></div>
+<div id="tms-modals"></div>
+<script>
+TMS_UI.boot({}, function () {
+  var html = TMS.packages.random(4).map(TMS_UI.packageRow).join('');
+  $('#pkg-list').html(html || '<p class="tms-empty">No packages available yet.</p>');
+});
+</script>
+</body>
+</html>

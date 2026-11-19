@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>TMS | My Tour History</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.12.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+</head>
+<body>
+<div id="tms-header"></div>
+<div class="banner-1">
+	<div class="container">
+		<h1 class="wow zoomIn animated" data-wow-delay=".5s">TMS-Tourism Management System</h1>
+	</div>
+</div>
+<div class="privacy">
+	<div class="container">
+		<h3 class="wow fadeInDown animated" data-wow-delay=".5s">My Tour History</h3>
+		<div id="msg"></div>
+		<table border="1" width="100%" class="table">
+			<thead>
+			<tr align="center">
+				<th>#</th><th>Booking Id</th><th>Package Name</th><th>From</th><th>To</th>
+				<th>Comment</th><th>Status</th><th>Booking Date</th><th>Action</th>
+			</tr>
+			</thead>
+			<tbody id="rows"></tbody>
+		</table>
+	</div>
+</div>
+
+<div id="tms-footer"></div>
+<div id="tms-modals"></div>
+<script>
+TMS_UI.boot({ auth: true }, function (user) {
+  var esc = TMS.esc;
+  function render() {
+    var list = TMS.bookings.forUser(user);
+    var html = list.map(function (b, i) {
+      var action = b.status === 2
+        ? 'Cancelled'
+        : '<a href="#" class="cancel-booking" data-id="' + b.BookingId + '">Cancel</a>';
+      return '<tr align="center">' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td>#BK' + esc(b.BookingId) + '</td>' +
+        '<td><a href="package-details.html?pkgid=' + esc(b.PackageId) + '">' + esc(b.PackageName) + '</a></td>' +
+        '<td>' + esc(b.FromDate) + '</td><td>' + esc(b.ToDate) + '</td>' +
+        '<td>' + esc(b.Comment) + '</td>' +
+        '<td>' + esc(TMS_UI.userStatus(b)) + '</td>' +
+        '<td>' + esc(b.RegDate) + '</td>' +
+        '<td>' + action + '</td></tr>';
+    }).join('');
+    $('#rows').html(html || '<tr><td colspan="9" class="tms-empty" align="center">You have no bookings yet. <a href="package-list.html">Browse tour packages</a></td></tr>');
+  }
+  render();
+  $('#rows').on('click', '.cancel-booking', function (e) {
+    e.preventDefault();
+    if (!confirm('Do you really want to cancel booking')) return;
+    var r = TMS.bookings.cancelByUser(user, $(this).data('id'));
+    $('#msg').html(TMS_UI.msg(r.ok ? 'success' : 'error', r.msg));
+    render();
+  });
+});
+</script>
+</body>
+</html>
